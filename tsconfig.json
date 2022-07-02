@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "types": [
+      "unplugin-icons/types/vue"
+    ],
+    // typescript path resolve alias
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*.ts",
+        "src/*.d.ts"
+      ],
+      "@stores/*": [
+        "src/stores/*.ts",
+        "src/stores/*.d.ts"
+      ],
+      "@network/*": [
+        "src/network/*.ts",
+        "src/network/*.d.ts"
+      ],
+      "@views/*": [
+        "src/views/*.ts",
+        "src/views/*.d.ts"
+      ],
+      "@util/*": [
+        "src/utilities/*.ts",
+        "src/utilities/*.d.ts"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}
