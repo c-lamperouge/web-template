@@ -40,6 +40,10 @@
       "@util/*": [
         "src/utilities/*.ts",
         "src/utilities/*.d.ts"
+      ],
+      "@components/*": [
+        "src/components/*.ts",
+        "src/components/*.d.ts"
       ]
     }
   },

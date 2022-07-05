@@ -14,7 +14,7 @@ const handleSlotClick = () => {
     class="slot-container"
     @click="handleSlotClick"
   >
-    <p>电话号码格式错误（11位数字，且以13、15、17、18、19开头）</p>
+    <p>密码格式错误（字母、数字、下划线，6到16位）</p>
   </div>
 </template>
 
@@ -22,17 +22,17 @@ const handleSlotClick = () => {
 .slot-container {
   position: fixed;
   z-index: 11;
-  top: calc(50% - 120px);
-  left: calc(50% - 210px);
+  top: calc(50% - 60px);
+  left: calc(50% - 1105px);
   display: block flex;
-  width: 420px;
-  height: 240px;
+  width: 210px;
+  height: 120px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
   background-color: white;
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: var(--shadow-dialog);
 
   & > p {

@@ -1,24 +1,20 @@
 import { openDB, DBSchema } from 'idb'
-import type { ViewPath } from '@views/viewPath'
 
 interface DB extends DBSchema {
-  view: {
-    key: 'viewPath'
-    value: ViewPath
-  }
   authorization: {
     key: 'token' | 'refreshToken'
     value: string
   }
   userInformation: {
-    key: 'id' | 'name' | 'avatarUrl' | 'isWeMedia' | 'introduction' | 'certification'
-      | 'articleCount' | 'followerCount' | 'fansCount' | 'likeCount'
-    value: string | number | boolean
+    key: number
+    value: {
+      //
+    }
   }
 }
 
 const openAppDB = async () => {
-  const db = await openDB<DB>('headline-mobile', 1, {
+  const db = await openDB<DB>('administratorInterface', 1, {
     blocked: () => {
       // seems an older version of this app is running in another tab
       window.alert('Please close this app opened in other browser tabs.')
@@ -33,9 +29,8 @@ const openAppDB = async () => {
 
     upgrade: (db, oldVersion, newVersion, transaction) => {
       if (oldVersion === 0 && newVersion === 1) {
-        db.createObjectStore('view')
         db.createObjectStore('authorization')
-        db.createObjectStore('userInformation')
+        db.createObjectStore('userInformation', { autoIncrement: true })
       } else {
         console.error('unknown database network version change')
       }

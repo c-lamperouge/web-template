@@ -1,4 +1,4 @@
-const baseURL = 'http://toutiao.itheima.net'
+const baseURL = 'http://ihrm.itheima.net'
 
 export {
   baseURL

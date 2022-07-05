@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-
 interface ComponentEmits {
   (e: 'close'): void
 }
@@ -9,12 +7,6 @@ const emit = defineEmits<ComponentEmits>()
 const handleSlotClick = () => {
   emit('close')
 }
-
-onMounted(() => {
-  setTimeout(() => {
-    emit('close')
-  }, 3000)
-})
 </script>
 
 <template>
@@ -22,7 +14,7 @@ onMounted(() => {
     class="slot-container"
     @click="handleSlotClick"
   >
-    <p>验证码已发送，注意查收</p>
+    <p>账号格式错误（字母、数字、下划线，6到16位）</p>
   </div>
 </template>
 
@@ -30,17 +22,17 @@ onMounted(() => {
 .slot-container {
   position: fixed;
   z-index: 11;
-  top: calc(50% - 120px);
-  left: calc(50% - 210px);
+  top: calc(50% - 60px);
+  left: calc(50% - 105px);
   display: block flex;
-  width: 420px;
-  height: 240px;
+  width: 210px;
+  height: 120px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
   background-color: white;
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: var(--shadow-dialog);
 
   & > p {

@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "gsap": "^3.10.4",
     "idb": "^7.0.2",
     "pinia": "^2.0.14",
     "ts-pattern": "^4.0.3",

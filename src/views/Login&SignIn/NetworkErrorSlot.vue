@@ -14,7 +14,7 @@ const handleSlotClick = () => {
     class="slot-container"
     @click="handleSlotClick"
   >
-    <p>验证码格式错误（6位数字）</p>
+    <p>网络请求错误</p>
   </div>
 </template>
 
@@ -22,20 +22,21 @@ const handleSlotClick = () => {
 .slot-container {
   position: fixed;
   z-index: 11;
-  top: calc(50% - 120px);
-  left: calc(50% - 210px);
+  top: calc(50% - 60px);
+  left: calc(50% - 105px);
   display: block flex;
-  width: 420px;
-  height: 240px;
+  width: 210px;
+  height: 120px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
   background-color: white;
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: var(--shadow-dialog);
 
   & > p {
+    color: red;
     margin-block: 1em;
     margin-inline: 1em;
   }

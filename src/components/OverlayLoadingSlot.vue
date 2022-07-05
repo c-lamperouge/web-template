@@ -27,7 +27,7 @@ import IconLoop from '~icons/ic/baseline-loop'
   left: 50%;
   animation: rotate 3s linear 0s infinite normal none running;
   color: hsl(0deg 0% 30%);
-  font-size: 80px;
+  font-size: 40px;
   transform: translate(-50%, -50%);
 }
 </style>
