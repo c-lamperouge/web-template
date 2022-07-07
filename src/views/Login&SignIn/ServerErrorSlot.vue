@@ -14,7 +14,7 @@ const handleSlotClick = () => {
     class="slot-container"
     @click="handleSlotClick"
   >
-    <p>密码格式错误（字母、数字、下划线，6到16位）</p>
+    <p>服务器响应错误</p>
   </div>
 </template>
 
@@ -36,6 +36,7 @@ const handleSlotClick = () => {
   box-shadow: var(--shadow-dialog);
 
   & > p {
+    color: red;
     margin-block: 1em;
     margin-inline: 1em;
   }

@@ -1,17 +1,19 @@
 <script setup lang="ts">
 // vue
 import { $ref, $computed } from 'vue/macros'
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, onBeforeMount } from 'vue'
 // style
 import './assets/style/base.postcss'
 import './assets/style/theme.postcss'
+// for view select
+import { getToken } from '@stores/dbStoreAuthorization'
 // for view switch
 import { ViewName, ViewTransitionType } from '@/AppViewSwitch'
 import { useStore } from '@stores/view'
 import gasp from 'gsap'
 import SuspenseFallback from '@components/SuspenseFallback.vue'
 
-// dynamic component
+// view dynamic component
 const store = useStore()
 const TestComp = defineAsyncComponent(() => import('@views/TheTest.vue'))
 const LoginComp = defineAsyncComponent(() => import('@views/Login&SignIn/LoginView.vue'))
@@ -154,6 +156,20 @@ const onLeave = async (el: HTMLElement, done: any) => {
     }
   }
 }
+
+/* simple routing */
+onBeforeMount(async () => {
+  try {
+    await getToken()
+    // go to test
+    history.pushState(ViewName.Test, 'test', '/test')
+    store.appActiveView = ViewName.Test
+  } catch (e) {
+    // go to login
+    history.pushState(ViewName.Login, 'login', '/login')
+    store.appActiveView = ViewName.Login
+  }
+})
 </script>
 
 <template>

@@ -9,13 +9,13 @@ import LoadingSlot from '@components/OverlayLoadingSlot.vue'
 import AccountInvalidSlot from './AccountInvalidSlot.vue'
 import PasswordInvalidSlot from './PasswordInvalidSlot.vue'
 import NetworkErrorSlot from './NetworkErrorSlot.vue'
+import ServerErrorSlot from './ServerErrorSlot.vue'
 // network
 import { match } from 'ts-pattern'
 import { postLogin } from '@network/requests/postLogin'
 import type { Data } from '@network/requests/postLogin'
-// import { login, Data } from '@network/logic/login'
 // store
-// import { openAppDB } from '@stores/openDB'
+import { updateToken } from '@stores/dbStoreAuthorization'
 // for view switch
 import { useStore } from '@stores/view'
 import { ViewName, ViewTransitionType } from '@/AppViewSwitch'
@@ -74,6 +74,7 @@ const enum OverlaySlotComponent {
   AccountInvalid,
   PasswordInvalid,
   NetworkError,
+  ServerError,
 }
 let currentOverlaySlot = $ref(OverlaySlotComponent.Loading)
 const overlaySlotComponent = $computed(() => {
@@ -86,6 +87,8 @@ const overlaySlotComponent = $computed(() => {
       return PasswordInvalidSlot
     case OverlaySlotComponent.NetworkError:
       return NetworkErrorSlot
+    case OverlaySlotComponent.ServerError:
+      return ServerErrorSlot
     default:
       throw new Error('unknown ovelay slot')
   }
@@ -114,12 +117,15 @@ const handleLoginClick = async () => {
     match(await postLogin(account, password))
       .with({ responseType: 'success' }, async result => {
         const data: Data = await result.responseContent.json()
-        console.log(data)
+        await updateToken(data.data)
 
         isShowOverlay = false
+        history.pushState(ViewName.Test, 'test', '/test')
+        store.appViewTransitionType = ViewTransitionType.SlideRight
+        store.appActiveView = ViewName.Test
       })
-      .otherwise(result => {
-        console.log(result)
+      .otherwise(() => {
+        currentOverlaySlot = OverlaySlotComponent.ServerError
       })
   } catch (e) {
     if (e instanceof Error) {
@@ -267,6 +273,12 @@ const go2TestView = () => {
   }
 }
 
+@media (width < 420px) {
+  .login-view > main {
+    box-shadow: none;
+  }
+}
+
 .login-left {
   display: block flex;
   width: 300px;
@@ -287,6 +299,19 @@ const go2TestView = () => {
   & > h2 {
     color: white;
     font-size: 24px;
+    text-align: center;
+  }
+}
+
+@media (width < 780px) {
+  .login-left {
+    width: 150px;
+  }
+}
+
+@media (width < 630px) {
+  .login-left {
+    display: none;
   }
 }
 
@@ -302,6 +327,7 @@ const go2TestView = () => {
   align-items: center;
   justify-content: center;
   padding: 30px;
+  background-color: white;
   gap: 22px;
 
   & > h3 {
