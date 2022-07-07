@@ -59,11 +59,13 @@ const switchAside = () => {
   flex-direction: column;
   background-color: white;
   box-shadow: var(--shadow-layer);
+  overflow-y: auto;
 }
 
 header {
   display: block flex;
   height: 36px;
+  justify-content: space-between;
   background-color: var(--theme-color);
   box-shadow: 0 3px 6px 0 rgb(0 0 0 / 24%);
   color: white;
@@ -93,7 +95,6 @@ header {
 
 .header-center {
   display: block flex;
-  flex: 1;
   align-items: center;
   justify-content: center;
 }
@@ -111,6 +112,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
 }
 
 aside {
@@ -118,7 +120,7 @@ aside {
   top: 0;
   left: 0;
   display: block flex;
-  width: 280px;
+  width: 300px;
   height: 100%;
   align-items: center;
   justify-content: center;

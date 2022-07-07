@@ -116,8 +116,8 @@ const handleLoginClick = async () => {
 
         isShowDialog = false
         history.pushState(ViewName.Test, 'test', '/test')
-        store.appViewTransitionType = ViewTransitionType.SlideRight
-        store.appActiveView = ViewName.Test
+        store.appViewTransitionType = ViewTransitionType.SlideUp
+        store.appActiveView = ViewName.Main
       })
       .otherwise(() => {
         currentOverlaySlot = OverlaySlotComponent.Message

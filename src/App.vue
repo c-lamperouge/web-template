@@ -17,12 +17,15 @@ import SuspenseFallback from '@components/SuspenseFallback.vue'
 const store = useStore()
 const TestComp = defineAsyncComponent(() => import('@views/TheTest.vue'))
 const LoginComp = defineAsyncComponent(() => import('@views/Login&SignIn/LoginView.vue'))
+const MainComp = defineAsyncComponent(() => import('@views/main/MainView.vue'))
 const dynComp = $computed(() => {
   switch (store.appActiveView) {
     case ViewName.Test:
       return TestComp
     case ViewName.Login:
       return LoginComp
+    case ViewName.Main:
+      return MainComp
     default:
       throw new Error('app view namee error')
   }
@@ -53,6 +56,16 @@ const onBeforeEnter = (el: HTMLElement) => {
       case ViewTransitionType.SlideRight:
         gasp.set(el, {
           xPercent: -100
+        })
+        break
+      case ViewTransitionType.SlideUp:
+        gasp.set(el, {
+          yPercent: 100
+        })
+        break
+      case ViewTransitionType.SlideDown:
+        gasp.set(el, {
+          yPercent: -100
         })
         break
       default:
@@ -93,6 +106,20 @@ const onEnter = async (el: HTMLElement, done: any) => {
       case ViewTransitionType.SlideRight:
         gasp.to(el, {
           xPercent: 0,
+          duration: VIEW_TRANSITION_DURATION,
+          onComplete: done()
+        })
+        break
+      case ViewTransitionType.SlideUp:
+        gasp.to(el, {
+          yPercent: 0,
+          duration: VIEW_TRANSITION_DURATION,
+          onComplete: done()
+        })
+        break
+      case ViewTransitionType.SlideDown:
+        gasp.to(el, {
+          yPercent: 0,
           duration: VIEW_TRANSITION_DURATION,
           onComplete: done()
         })
@@ -150,6 +177,20 @@ const onLeave = async (el: HTMLElement, done: any) => {
             onComplete: done
           })
           break
+        case ViewTransitionType.SlideUp:
+          gasp.to(el, {
+            yPercent: -50,
+            duration: VIEW_TRANSITION_DURATION,
+            onComplete: done
+          })
+          break
+        case ViewTransitionType.SlideDown:
+          gasp.to(el, {
+            yPercent: 50,
+            duration: VIEW_TRANSITION_DURATION,
+            onComplete: done
+          })
+          break
         default:
           throw new Error('unknown view transition type')
       }
@@ -162,8 +203,8 @@ onBeforeMount(async () => {
   try {
     await getToken()
     // go to test
-    history.pushState(ViewName.Test, 'test', '/test')
-    store.appActiveView = ViewName.Test
+    history.pushState(ViewName.Main, 'main', '/main')
+    store.appActiveView = ViewName.Main
   } catch (e) {
     // go to login
     history.pushState(ViewName.Login, 'login', '/login')

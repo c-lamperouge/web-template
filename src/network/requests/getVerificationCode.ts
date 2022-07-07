@@ -1,4 +1,3 @@
-import { baseURL } from '@network/URL'
 import { ResponseResult } from '@network/ResponseResult'
 
 interface Data {
@@ -11,7 +10,7 @@ interface Data {
 type GetVerificationCode = (phoneNumber: string) => Promise<ResponseResult>
 
 const getVerificationCode: GetVerificationCode = async (phoneNumber) => {
-  const response = await fetch(`${baseURL}/v1_0/sms/codes/${phoneNumber}`, {
+  const response = await fetch(`/v1_0/sms/codes/${phoneNumber}`, {
     method: 'GET',
     mode: 'cors',
     headers: {

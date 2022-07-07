@@ -1,4 +1,3 @@
-import { baseURL } from '@network/URL'
 import { ResponseResult } from '@network/ResponseResult'
 
 interface Data {
@@ -11,7 +10,7 @@ interface Data {
 type UpdateToken = (refreshToken: string) => Promise<ResponseResult>
 
 const updateToken: UpdateToken = async (refreshToken) => {
-  const response = await fetch(`${baseURL}/v1_0/authorizations`, {
+  const response = await fetch('/v1_0/authorizations', {
     method: 'PUT',
     mode: 'cors',
     headers: {

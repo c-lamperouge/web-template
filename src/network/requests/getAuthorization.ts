@@ -1,4 +1,3 @@
-import { baseURL } from '@network/URL'
 import { ResponseResult } from '@network/ResponseResult'
 
 interface Data {
@@ -12,7 +11,7 @@ interface Data {
 type GetAuthorization = (phoneNumber: string, verificationCode: string) => Promise<ResponseResult>
 
 const getAuthorization: GetAuthorization = async (phoneNumber, verificationCode) => {
-  const response = await fetch(`${baseURL}/v1_0/authorizations`, {
+  const response = await fetch('/v1_0/authorizations', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'

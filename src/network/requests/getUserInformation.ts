@@ -1,4 +1,3 @@
-import { baseURL } from '@network/URL'
 import { ResponseResult } from '@network/ResponseResult'
 
 interface Data {
@@ -20,7 +19,7 @@ interface Data {
 type GetUserInformation = (token: string) => Promise<ResponseResult>
 
 const getUserInformation: GetUserInformation = async (token: string) => {
-  const response = await fetch(`${baseURL}/v1_0/user`, {
+  const response = await fetch('/v1_0/user', {
     method: 'GET',
     mode: 'cors',
     headers: {
