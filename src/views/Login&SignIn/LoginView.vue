@@ -85,6 +85,7 @@ let messageContent = $ref('')
 let messageColor = $ref<string | undefined>(undefined)
 
 // handle login button click
+const store = useStore()
 const handleLoginClick = async () => {
   validateAccount()
   if (!isAccountValid) {
@@ -138,13 +139,6 @@ const handleLoginClick = async () => {
       console.log(e)
     }
   }
-}
-
-// test
-const store = useStore()
-const go2TestView = () => {
-  store.appViewTransitionType = ViewTransitionType.SlideRight
-  store.appActiveView = ViewName.Test
 }
 </script>
 
@@ -229,12 +223,6 @@ const go2TestView = () => {
       <br>
       密码：123456
     </div>
-
-    <button
-      @click="go2TestView"
-    >
-      go to test
-    </button>
 
     <DialogBackdrop
       v-model="isShowDialog"
