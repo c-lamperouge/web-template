@@ -1,7 +1,13 @@
 <script setup lang="ts">
+interface ComponentProperties {
+  content: string
+  color?: string
+}
 interface ComponentEmits {
   (e: 'close'): void
 }
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { content, color = 'black' } = defineProps<ComponentProperties>()
 const emit = defineEmits<ComponentEmits>()
 
 const handleSlotClick = () => {
@@ -14,14 +20,13 @@ const handleSlotClick = () => {
     class="slot-container"
     @click="handleSlotClick"
   >
-    <p>账号格式错误（字母、数字、下划线，6到16位）</p>
+    <p>{{ content }}</p>
   </div>
 </template>
 
 <style scoped lang="postcss">
 .slot-container {
   position: fixed;
-  z-index: 11;
   top: calc(50% - 60px);
   left: calc(50% - 105px);
   display: block flex;
@@ -36,6 +41,7 @@ const handleSlotClick = () => {
   box-shadow: var(--shadow-dialog);
 
   & > p {
+    color: v-bind("color");
     margin-block: 1em;
     margin-inline: 1em;
   }

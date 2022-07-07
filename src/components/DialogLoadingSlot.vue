@@ -22,7 +22,6 @@ import IconLoop from '~icons/ic/baseline-loop'
 
 .icon-loop {
   position: fixed;
-  z-index: 11;
   top: 50%;
   left: 50%;
   animation: rotate 3s linear 0s infinite normal none running;

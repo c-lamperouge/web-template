@@ -4,12 +4,9 @@ import { $ref, $computed } from 'vue/macros'
 // component
 import IconPerson from '~icons/ic/baseline-person'
 import IconLock from '~icons/ic/baseline-lock'
-import BodyOverlay from '@components/BodyOverlay.vue'
-import LoadingSlot from '@components/OverlayLoadingSlot.vue'
-import AccountInvalidSlot from './AccountInvalidSlot.vue'
-import PasswordInvalidSlot from './PasswordInvalidSlot.vue'
-import NetworkErrorSlot from './NetworkErrorSlot.vue'
-import ServerErrorSlot from './ServerErrorSlot.vue'
+import DialogBackdrop from '@components/DialogBackdrop.vue'
+import LoadingSlot from '@components/DialogLoadingSlot.vue'
+import MessageSlot from '@components/DialogMessageSlot.vue'
 // network
 import { match } from 'ts-pattern'
 import { postLogin } from '@network/requests/postLogin'
@@ -68,49 +65,46 @@ const handlePasswordBlur = () => {
 }
 
 // handle overlay slot dynamic component switch
-let isShowOverlay = $ref(false)
+let isShowDialog = $ref(false)
 const enum OverlaySlotComponent {
   Loading,
-  AccountInvalid,
-  PasswordInvalid,
-  NetworkError,
-  ServerError,
+  Message,
 }
 let currentOverlaySlot = $ref(OverlaySlotComponent.Loading)
 const overlaySlotComponent = $computed(() => {
   switch (currentOverlaySlot) {
     case OverlaySlotComponent.Loading:
       return LoadingSlot
-    case OverlaySlotComponent.AccountInvalid:
-      return AccountInvalidSlot
-    case OverlaySlotComponent.PasswordInvalid:
-      return PasswordInvalidSlot
-    case OverlaySlotComponent.NetworkError:
-      return NetworkErrorSlot
-    case OverlaySlotComponent.ServerError:
-      return ServerErrorSlot
+    case OverlaySlotComponent.Message:
+      return MessageSlot
     default:
       throw new Error('unknown ovelay slot')
   }
 })
+let messageContent = $ref('')
+let messageColor = $ref<string | undefined>(undefined)
 
 // handle login button click
 const handleLoginClick = async () => {
   validateAccount()
   if (!isAccountValid) {
-    isShowOverlay = true
-    currentOverlaySlot = OverlaySlotComponent.AccountInvalid
+    isShowDialog = true
+    currentOverlaySlot = OverlaySlotComponent.Message
+    messageContent = '账号格式错误（字母、数字、下划线，6到16位）'
+    messageColor = undefined
     return
   }
 
   validatePassword()
   if (!isPasswordValid) {
-    isShowOverlay = true
-    currentOverlaySlot = OverlaySlotComponent.PasswordInvalid
+    isShowDialog = true
+    currentOverlaySlot = OverlaySlotComponent.Message
+    messageContent = '密码格式错误（字母、数字、下划线，6到16位）'
+    messageColor = undefined
     return
   }
 
-  isShowOverlay = true
+  isShowDialog = true
   currentOverlaySlot = OverlaySlotComponent.Loading
 
   try {
@@ -119,19 +113,23 @@ const handleLoginClick = async () => {
         const data: Data = await result.responseContent.json()
         await updateToken(data.data)
 
-        isShowOverlay = false
+        isShowDialog = false
         history.pushState(ViewName.Test, 'test', '/test')
         store.appViewTransitionType = ViewTransitionType.SlideRight
         store.appActiveView = ViewName.Test
       })
       .otherwise(() => {
-        currentOverlaySlot = OverlaySlotComponent.ServerError
+        currentOverlaySlot = OverlaySlotComponent.Message
+        messageContent = '服务器响应错误'
+        messageColor = 'red'
       })
   } catch (e) {
     if (e instanceof Error) {
       switch (e.message) {
         case 'Failed to fetch':
-          currentOverlaySlot = OverlaySlotComponent.NetworkError
+          currentOverlaySlot = OverlaySlotComponent.Message
+          messageContent = '网络请求错误'
+          messageColor = 'red'
           break
         default:
           console.log(e)
@@ -238,17 +236,19 @@ const go2TestView = () => {
       go to test
     </button>
 
-    <BodyOverlay
-      v-model="isShowOverlay"
+    <DialogBackdrop
+      v-model="isShowDialog"
       backdrop-theme="light"
       slot-transition-name="scale"
       :enable-close="false"
     >
       <component
         :is="overlaySlotComponent"
-        @close="isShowOverlay = false"
+        :content="messageContent"
+        :color="messageColor"
+        @close="isShowDialog = false"
       />
-    </BodyOverlay>
+    </DialogBackdrop>
   </div>
 </template>
 

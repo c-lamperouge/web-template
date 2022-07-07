@@ -25,7 +25,7 @@ const {
 } = defineProps<ComponentProperties>()
 const emit = defineEmits<ComponentEmits>()
 
-const backdropClass = computed<string>(() => `-bg-${backdropTheme}`)
+const backdropClass = computed<string>(() => `bg-${backdropTheme}`)
 
 const handleBackdropClick = () => {
   if (enableClose) {
@@ -35,41 +35,38 @@ const handleBackdropClick = () => {
 </script>
 
 <template>
-  <Teleport to="body">
-    <Transition :name="backdropTransitionName">
-      <div
-        v-if="modelValue"
-        class="overlay-backdrop"
-        :class="backdropClass"
-        :style="{'--transition-duration': transitionDuration}"
-        @click="handleBackdropClick"
-      />
-    </Transition>
+  <Transition :name="backdropTransitionName">
+    <div
+      v-if="modelValue"
+      class="dialog-backdrop"
+      :class="backdropClass"
+      :style="{'--transition-duration': transitionDuration}"
+      @click="handleBackdropClick"
+    />
+  </Transition>
 
-    <Transition :name="slotTransitionName">
-      <slot v-if="modelValue" />
-    </Transition>
-  </Teleport>
+  <Transition :name="slotTransitionName">
+    <slot v-if="modelValue" />
+  </Transition>
 </template>
 
 <style scoped lang="postcss">
-.overlay-backdrop {
+.dialog-backdrop {
   position: fixed;
-  z-index: 10;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
 
-  &.-bg-transparent {
+  &.bg-transparent {
     background-color: transparent;
   }
 
-  &.-bg-light {
+  &.bg-light {
     background-color: rgb(255 255 255 / 80%);
   }
 
-  &.-bg-dark {
+  &.bg-dark {
     background-color: rgb(0 0 0 / 50%);
   }
 }
