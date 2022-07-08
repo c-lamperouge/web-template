@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { $computed } from 'vue/macros'
 import DialogBackdrop from '@components/DialogBackdrop.vue'
-import IconPushPin from '~icons/ic/baseline-push-pin'
-import IconPinOff from '~icons/ic/baseline-pin-off'
+import IconPushPin from '~icons/ic/baseline-keyboard-double-arrow-left'
+import IconPinOff from '~icons/ic/baseline-keyboard-double-arrow-right'
 import IconClose from '~icons/ic/baseline-close'
 
 interface ComponentProperties {

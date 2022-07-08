@@ -39,7 +39,10 @@ export default defineConfig({
     postcss: {
       plugins: [
         postcssPresetEnv({
-          stage: 1
+          stage: 1,
+          features: {
+            'logical-properties-and-values': false
+          }
         }) as any
       ]
     }
