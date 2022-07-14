@@ -8,9 +8,13 @@ import IconPerson from '~icons/ic/baseline-person'
 import { useStore } from '@stores/view'
 import { ViewName, ViewTransitionType } from '@/AppViewSwitch'
 
+interface ComponentProperties {
+  userName: string
+}
 interface ComponentEmits {
   (e: 'switchAside'): void
 }
+const props = defineProps<ComponentProperties>()
 const emit = defineEmits<ComponentEmits>()
 
 // right dropdown
@@ -52,7 +56,7 @@ const logOut = () => {
         >
           <IconPerson class="icon" />
 
-          <span class="name">User</span>
+          <span class="name">{{ props.userName }}</span>
         </div>
 
         <div
@@ -106,6 +110,7 @@ header {
 
 .header-center {
   display: block flex;
+  overflow: hidden;
   flex: 1;
   align-items: center;
 }
@@ -124,6 +129,7 @@ header {
 
 .user-primary {
   display: block flex;
+  min-width: 100px;
   align-items: center;
   justify-content: center;
   padding: 2px 4px;
@@ -144,9 +150,13 @@ header {
   }
 
   & > .name {
+    overflow: hidden;
+    max-width: 130px;
     margin-right: 4px;
     font-size: 16px;
+    text-overflow: ellipsis;
     user-select: none;
+    white-space: nowrap;
   }
 }
 

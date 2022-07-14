@@ -1,15 +1,20 @@
 import { openDB, DBSchema } from 'idb'
 
+interface UserInformation {
+  id: string
+  mobile: string
+  userName: string
+  companyName: string
+  companyId: string
+}
 interface DB extends DBSchema {
   authorization: {
     key: 'token' | 'refreshToken'
     value: string
   }
   userInformation: {
-    key: number
-    value: {
-      //
-    }
+    key: string
+    value: UserInformation
   }
 }
 
@@ -30,7 +35,7 @@ const openAppDB = async () => {
     upgrade: (db, oldVersion, newVersion, transaction) => {
       if (oldVersion === 0 && newVersion === 1) {
         db.createObjectStore('authorization')
-        db.createObjectStore('userInformation', { autoIncrement: true })
+        db.createObjectStore('userInformation', { keyPath: 'id' })
       } else {
         console.error('unknown database network version change')
       }
@@ -46,4 +51,8 @@ const openAppDB = async () => {
 
 export {
   openAppDB
+}
+
+export type {
+  UserInformation
 }

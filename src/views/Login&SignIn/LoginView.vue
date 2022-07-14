@@ -115,7 +115,7 @@ const handleLoginClick = async () => {
         await updateToken(data.data)
 
         isShowDialog = false
-        history.pushState(ViewName.Test, 'test', '/test')
+        history.pushState(ViewName.Main, 'main', '/main')
         store.appViewTransitionType = ViewTransitionType.SlideUp
         store.appActiveView = ViewName.Main
       })

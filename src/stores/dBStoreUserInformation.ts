@@ -1,49 +1,33 @@
 import { openAppDB } from '@stores/openDB'
+import type { UserInformation } from '@stores/openDB'
 
-const getToken = async () => {
+const getUserInformation = async (id: string) => {
   const db = await openAppDB()
-  const transaction = db.transaction('authorization')
-  const token = await transaction.store.get('token')
+  const transaction = db.transaction('userInformation')
+  const userInformation = await transaction.store.get(id)
   transaction.done.catch(reason => {
     console.error(reason)
   })
   db.close()
 
-  if (token === undefined) {
-    throw new Error('indexedDB token not found')
+  if (userInformation === undefined) {
+    throw new Error('indexedDB user information not found')
   }
 
-  return token
+  return userInformation
 }
 
-const updateToken = async (newToken: string) => {
+const updateUserInformation = async (newUserInformation: UserInformation) => {
   const db = await openAppDB()
-  const transaction = db.transaction('authorization', 'readwrite')
-  transaction.store.put(newToken, 'token')
+  const transaction = db.transaction('userInformation', 'readwrite')
+  transaction.store.put(newUserInformation, newUserInformation.id)
   transaction.done.catch(reason => {
     console.error(reason)
   })
   db.close()
-}
-
-const getRefreshToken = async () => {
-  const db = await openAppDB()
-  const transaction = db.transaction('authorization')
-  const refreshToken = await transaction.store.get('refreshToken')
-  transaction.done.catch(reason => {
-    console.error(reason)
-  })
-  db.close()
-
-  if (refreshToken === undefined) {
-    throw new Error('indexedDB refresh token not found')
-  }
-
-  return refreshToken
 }
 
 export {
-  getToken,
-  updateToken,
-  getRefreshToken
+  getUserInformation,
+  updateUserInformation
 }

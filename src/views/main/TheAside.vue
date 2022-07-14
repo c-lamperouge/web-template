@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { $computed } from 'vue/macros'
-import DialogBackdrop from '@components/DialogBackdrop.vue'
+import DrawerBackdrop from '@components/DrawerBackdrop.vue'
 import IconPushPin from '~icons/ic/baseline-keyboard-double-arrow-left'
 import IconPinOff from '~icons/ic/baseline-keyboard-double-arrow-right'
 import IconClose from '~icons/ic/baseline-close'
@@ -26,11 +26,11 @@ const isShowAside = $computed<boolean>({
 </script>
 
 <template>
-  <DialogBackdrop
+  <DrawerBackdrop
     v-model="isShowAside"
     slot-transition-name="aside-slide"
   >
-    <aside>
+    <aside v-show="isShowAside">
       <div class="aside-head">
         <IconPushPin
           v-if="props.isPinned"
@@ -59,7 +59,7 @@ const isShowAside = $computed<boolean>({
         <li>Form</li>
       </ul>
     </aside>
-  </DialogBackdrop>
+  </DrawerBackdrop>
 </template>
 
 <style scoped lang="postcss">
