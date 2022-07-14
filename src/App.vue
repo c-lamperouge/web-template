@@ -15,11 +15,29 @@ import SuspenseFallback from '@components/SuspenseFallback.vue'
 
 // view dynamic component
 const store = useStore()
+const PendingComp = defineAsyncComponent(async () => {
+  try {
+    await getToken()
+    // go to main
+    history.pushState(ViewName.Main, 'main', '/main')
+    store.appActiveView = ViewName.Main
+
+    return import('@views/main/MainView.vue')
+  } catch (e) {
+    // go to login
+    history.pushState(ViewName.Login, 'login', '/login')
+    store.appActiveView = ViewName.Login
+
+    return import('@views/main/MainView.vue')
+  }
+})
 const TestComp = defineAsyncComponent(() => import('@views/TheTest.vue'))
 const LoginComp = defineAsyncComponent(() => import('@views/Login&SignIn/LoginView.vue'))
 const MainComp = defineAsyncComponent(() => import('@views/main/MainView.vue'))
 const dynComp = $computed(() => {
   switch (store.appActiveView) {
+    case ViewName.Pending:
+      return PendingComp
     case ViewName.Test:
       return TestComp
     case ViewName.Login:
@@ -202,7 +220,7 @@ const onLeave = async (el: HTMLElement, done: any) => {
 onBeforeMount(async () => {
   try {
     await getToken()
-    // go to test
+    // go to main
     history.pushState(ViewName.Main, 'main', '/main')
     store.appActiveView = ViewName.Main
   } catch (e) {
@@ -227,7 +245,9 @@ onBeforeMount(async () => {
         @fallback="handleSuspenseFallback"
         @resolve="handleSuspenseResolve"
       >
-        <component :is="dynComp" />
+        <component
+          :is="dynComp"
+        />
 
         <template #fallback>
           <SuspenseFallback :data-view-name="ViewName.Fallback" />

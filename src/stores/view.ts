@@ -13,7 +13,7 @@ interface Acttions {
 
 const useStore = defineStore<Id, State, {}, Acttions>('view', {
   state: () => ({
-    appActiveView: ViewName.Login,
+    appActiveView: ViewName.Pending,
     appViewTransitionType: ViewTransitionType.None
   }),
 

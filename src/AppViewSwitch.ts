@@ -1,5 +1,6 @@
 const enum ViewName {
   Fallback = 'Fallback',
+  Pending = 'Pending',
   Test = 'Test',
   Login = 'Login',
   Main = 'Main',

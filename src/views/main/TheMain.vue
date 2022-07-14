@@ -36,13 +36,13 @@ let departmentManager = $ref('')
 const checkDepartmentName = () => {
   const regExp = /.{3~15}/
   if (!regExp.test(departmentName)) {
-    window.alert('department name invalid')
+    console.log('department name invalid')
   }
 }
 const checkDepartmentCode = () => {
   const regExp = /.{3~15}/
   if (!regExp.test(departmentCode)) {
-    window.alert('department code invalid')
+    console.log('department code invalid')
   }
 }
 </script>
